@@ -9,8 +9,8 @@ export default function App() {
 
   // Renders the editor instance using a React component.
   return (
-    <div>
-      <h1>Block Docs</h1>
+    <div className="p-2">
+      <h1 className="text-4xl">Block Docs</h1>
       <BlockNoteView editor={editor} />
     </div>
   )
