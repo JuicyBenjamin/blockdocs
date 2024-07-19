@@ -1,19 +1,20 @@
 import { PartialBlock } from '@blocknote/core'
 import Dexie, { type EntityTable } from 'dexie'
 
-interface Editor {
+interface IDocument {
   id: number
-  content: PartialBlock[]
+  content: PartialBlock[] | undefined
+  name: string
 }
 
 const db = new Dexie('DocumentDatabase') as Dexie & {
-  editor: EntityTable<Editor, 'id'>
+  document: EntityTable<IDocument, 'id'>
 }
 
 // Schema declaration:
 db.version(1).stores({
-  editor: '++id, content',
+  document: '++id, name, content',
 })
 
-export type { Editor }
+export type { IDocument }
 export { db }
