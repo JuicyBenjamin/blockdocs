@@ -13,14 +13,20 @@
     "@blocknote/core": "^0.14.5",
     "@blocknote/mantine": "^0.14.6",
     "@blocknote/react": "^0.14.6",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "dexie": "^4.0.8",
     "dexie-react-hooks": "^1.1.7",
+    "lucide-react": "^0.411.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router": "^6.25.1",
-    "react-router-dom": "^6.25.1"
+    "react-router-dom": "^6.25.1",
+    "tailwind-merge": "^2.4.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@types/node": "^20.14.11",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.13.1",
