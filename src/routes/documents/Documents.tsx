@@ -9,7 +9,8 @@ const Documents = () => {
 
   const handleClick = async () => {
     const documentId = await db.document.add({
-      name: 'Untitled',
+      title: 'Untitled',
+      description: 'No description provided',
       content: undefined,
     })
     navigate(`/documents/${documentId}`)
@@ -21,12 +22,10 @@ const Documents = () => {
         <Link key={document.id} to={`/documents/${document.id}`}>
           <Card>
             <CardHeader>
-              <CardTitle>{document.name}</CardTitle>
+              <CardTitle>{document.title}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p>
-                I'll just add some random stuff here, tbd later what goes here
-              </p>
+              <p>{document.description}</p>
             </CardContent>
           </Card>
         </Link>

@@ -3,8 +3,9 @@ import Dexie, { type EntityTable } from 'dexie'
 
 interface IDocument {
   id: number
+  title: string
+  description: string
   content: PartialBlock[] | undefined
-  name: string
 }
 
 const db = new Dexie('DocumentDatabase') as Dexie & {
@@ -13,7 +14,7 @@ const db = new Dexie('DocumentDatabase') as Dexie & {
 
 // Schema declaration:
 db.version(1).stores({
-  document: '++id, name, content',
+  document: '++id, title, description, content',
 })
 
 export type { IDocument }
