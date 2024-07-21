@@ -3,10 +3,11 @@ import '@blocknote/core/fonts/inter.css'
 import { BlockNoteView } from '@blocknote/mantine'
 import '@blocknote/mantine/style.css'
 import { db, IDocument } from '@/utils/db'
-import { useLoaderData } from 'react-router-dom'
+import { Link, useLoaderData } from 'react-router-dom'
 import { useCreateBlockNote } from '@blocknote/react'
 import { useEffect, useRef, useState } from 'react'
 import { Textarea } from '@/components/ui/textarea'
+import { Button } from '@/components/ui/button'
 
 const Document = () => {
   const initialContentData = useLoaderData() as IDocument | null
@@ -53,6 +54,11 @@ const Document = () => {
   // Renders the editor instance using a React component.
   return (
     <div className="p-2 flex flex-col gap-2">
+      <div>
+        <Button asChild variant="secondary">
+          <Link to="/documents">Back to documents</Link>
+        </Button>
+      </div>
       <h1 className="text-4xl">
         <span
           className="cursor-pointer"
