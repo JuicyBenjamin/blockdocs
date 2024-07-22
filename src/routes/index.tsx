@@ -4,6 +4,7 @@ import Home from './Home'
 import Documents from './Documents/Documents'
 import Document from './Documents/components/Document'
 import { db } from '@/utils/db'
+import GenerateBlocks from './GenerateBlocks'
 
 const IndexRoutes = () => {
   const router = createBrowserRouter([
@@ -36,6 +37,10 @@ const IndexRoutes = () => {
               element: <Document />,
             },
           ],
+        },
+        {
+          path: 'blocks',
+          element: <GenerateBlocks />,
         },
       ],
     },
