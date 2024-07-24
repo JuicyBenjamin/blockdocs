@@ -12,10 +12,11 @@ import {
 import { Checkbox } from './ui/checkbox'
 import { Label } from './ui/label'
 import { RadioGroup, RadioGroupItem } from './ui/radio-group'
+import { Tag } from 'emblor'
 
 interface FormBlockComponentProps {
   type: 'input' | 'textarea' | 'select' | 'checkbox' | 'radio'
-  options?: string[]
+  options?: Tag[]
   placeholder?: string
   required?: boolean
   label?: string
@@ -41,8 +42,8 @@ const FormBlockComponent: FC<FormBlockComponentProps> = ({
         </SelectTrigger>
         <SelectContent>
           {options?.map((option) => (
-            <SelectItem key={option} value={option}>
-              {option}
+            <SelectItem key={option.id} value={option.id}>
+              {option.text}
             </SelectItem>
           ))}
         </SelectContent>
@@ -50,20 +51,20 @@ const FormBlockComponent: FC<FormBlockComponentProps> = ({
     )
   }
   if (type === 'checkbox') {
-    return options?.map((option, index) => (
+    return options?.map((option) => (
       <div className="flex items-center space-x-2">
-        <Checkbox id={`checkbox-${index}`} />
-        <Label htmlFor={`checkbox-${index}`}>{option}</Label>
+        <Checkbox id={option.id} />
+        <Label htmlFor={option.id}>{option.text}</Label>
       </div>
     ))
   }
   if (type === 'radio') {
     return (
       <RadioGroup>
-        {options?.map((option, index) => (
+        {options?.map((option) => (
           <div className="flex items-center space-x-2">
-            <RadioGroupItem id={`radio-${index}`} value={option} />
-            <Label htmlFor={`radio-${index}`}>{option}</Label>
+            <RadioGroupItem id={option.id} value={option.id} />
+            <Label htmlFor={option.id}>{option.text}</Label>
           </div>
         ))}
       </RadioGroup>
