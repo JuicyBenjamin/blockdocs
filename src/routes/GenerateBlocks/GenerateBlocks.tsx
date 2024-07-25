@@ -11,6 +11,7 @@ import AddOptions from './components/AddOptions'
 import { Tag } from 'emblor'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Switch } from '@/components/ui/switch'
 
 type FormBlockType = 'input' | 'textarea' | 'select' | 'checkbox' | 'radio'
 
@@ -19,6 +20,8 @@ const GenerateBlocks = () => {
   const [isRequired, setIsRequired] = useState<boolean>(false)
   const [options, setOptions] = useState<Tag[]>([])
   const [label, setLabel] = useState<string>('')
+
+  console.log(isRequired)
 
   return (
     <div className="flex flex-col gap-4">
@@ -47,8 +50,15 @@ const GenerateBlocks = () => {
           onChange={(e) => setLabel(e.target.value)}
         />
       </div>
+      <div className="flex items-center space-x-2">
+        <Label htmlFor="required">Is the element required?</Label>
+        <Switch
+          id="required"
+          checked={isRequired}
+          onCheckedChange={() => setIsRequired((prev) => !prev)}
+        />
+      </div>
       {/*
-      TODO: add a way to add a label
       TODO: add a way to make the field required
       TODO: add a way to add a placeholder
       TODO: add a way to define an input mas for input
