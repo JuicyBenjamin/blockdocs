@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useId } from 'react'
 
 import { Input } from './ui/input'
 import { Textarea } from './ui/textarea'
@@ -27,47 +27,76 @@ const FormBlockComponent: FC<FormBlockComponentProps> = ({
   options,
   placeholder,
   required = false,
+  label,
 }) => {
+  const elementId = useId()
   if (type === 'input') {
-    return <Input required={required} />
+    return (
+      <div className="grid w-full max-w-sm items-center gap-1.5">
+        <Label htmlFor={elementId}>{label}</Label>
+        <Input id={elementId} placeholder={placeholder} required={required} />
+      </div>
+    )
   }
   if (type === 'textarea') {
-    return <Textarea required={required} />
+    return (
+      <div className="grid w-full gap-1.5">
+        <Label htmlFor={elementId}>{label}</Label>
+        <Textarea
+          id={elementId}
+          placeholder={placeholder}
+          required={required}
+        />
+      </div>
+    )
   }
   if (type === 'select') {
     return (
-      <Select required={required}>
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder={placeholder} />
-        </SelectTrigger>
-        <SelectContent>
-          {options?.map((option) => (
-            <SelectItem key={option.id} value={option.id}>
-              {option.text}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <div className="grid w-full gap-1.5">
+        <Label htmlFor={elementId}>{label}</Label>
+        <Select required={required}>
+          <SelectTrigger id={elementId} className="w-[180px]">
+            <SelectValue placeholder={placeholder} />
+          </SelectTrigger>
+          <SelectContent>
+            {options?.map((option) => (
+              <SelectItem key={option.id} value={option.id}>
+                {option.text}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
     )
   }
   if (type === 'checkbox') {
-    return options?.map((option) => (
-      <div className="flex items-center space-x-2">
-        <Checkbox id={option.id} />
-        <Label htmlFor={option.id}>{option.text}</Label>
+    return (
+      <div className="grid w-full gap-1.5">
+        <Label htmlFor={elementId}>{label}</Label>
+        <div id={elementId}>
+          {options?.map((option) => (
+            <div className="flex items-center space-x-2">
+              <Checkbox id={option.id} />
+              <Label htmlFor={option.id}>{option.text}</Label>
+            </div>
+          ))}
+        </div>
       </div>
-    ))
+    )
   }
   if (type === 'radio') {
     return (
-      <RadioGroup>
-        {options?.map((option) => (
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem id={option.id} value={option.id} />
-            <Label htmlFor={option.id}>{option.text}</Label>
-          </div>
-        ))}
-      </RadioGroup>
+      <div className="grid w-full gap-1.5">
+        <Label htmlFor={elementId}>{label}</Label>
+        <RadioGroup id={elementId}>
+          {options?.map((option) => (
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem id={option.id} value={option.id} />
+              <Label htmlFor={option.id}>{option.text}</Label>
+            </div>
+          ))}
+        </RadioGroup>
+      </div>
     )
   }
   return <p>Something went wrong</p>
