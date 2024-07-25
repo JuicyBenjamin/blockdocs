@@ -20,8 +20,7 @@ const GenerateBlocks = () => {
   const [isRequired, setIsRequired] = useState<boolean>(false)
   const [options, setOptions] = useState<Tag[]>([])
   const [label, setLabel] = useState<string>('')
-
-  console.log(isRequired)
+  const [placeholder, setPlaceholder] = useState<string>('')
 
   return (
     <div className="flex flex-col gap-4">
@@ -50,6 +49,14 @@ const GenerateBlocks = () => {
           onChange={(e) => setLabel(e.target.value)}
         />
       </div>
+      <div className="grid w-full max-w-sm items-center gap-1.5">
+        <Label htmlFor="placeholder">Placeholder:</Label>
+        <Input
+          id="placeholder"
+          placeholder="Add a placeholder"
+          onChange={(e) => setPlaceholder(e.target.value)}
+        />
+      </div>
       <div className="flex items-center space-x-2">
         <Label htmlFor="required">Is the element required?</Label>
         <Switch
@@ -59,9 +66,7 @@ const GenerateBlocks = () => {
         />
       </div>
       {/*
-      TODO: add a way to make the field required
-      TODO: add a way to add a placeholder
-      TODO: add a way to define an input mas for input
+      TODO: add a way to define an input mask for input
       */}
       <h2>Preview</h2>
       {type && (
@@ -70,6 +75,7 @@ const GenerateBlocks = () => {
           required={isRequired}
           options={options}
           label={label}
+          placeholder={placeholder}
         />
       )}
     </div>
