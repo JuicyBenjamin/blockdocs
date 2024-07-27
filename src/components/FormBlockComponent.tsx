@@ -1,4 +1,4 @@
-import { FC, useId } from 'react'
+import { FC, useId, useState } from 'react'
 
 import { Input } from './ui/input'
 import { Textarea } from './ui/textarea'
@@ -13,6 +13,7 @@ import { Checkbox } from './ui/checkbox'
 import { Label } from './ui/label'
 import { RadioGroup, RadioGroupItem } from './ui/radio-group'
 import { Tag } from 'emblor'
+import { InputMask, MaskEventDetail } from '@react-input/mask'
 
 interface FormBlockComponentProps {
   type: 'input' | 'textarea' | 'select' | 'checkbox' | 'radio'
@@ -20,6 +21,10 @@ interface FormBlockComponentProps {
   placeholder?: string
   required?: boolean
   label?: string
+  mask?: string
+  replacement?: string
+  isMaskNumber?: boolean
+  isShowMask?: boolean
 }
 
 const FormBlockComponent: FC<FormBlockComponentProps> = ({
@@ -28,13 +33,36 @@ const FormBlockComponent: FC<FormBlockComponentProps> = ({
   placeholder,
   required = false,
   label,
+  mask,
+  replacement,
+  isMaskNumber,
+  isShowMask,
 }) => {
   const elementId = useId()
+  const [maskValue, setMaskValue] = useState<MaskEventDetail>()
+
+  // TODO: better handling of replacement string
+
   if (type === 'input') {
     return (
       <div className="grid w-full max-w-sm items-center gap-1.5">
         <Label htmlFor={elementId}>{label}</Label>
-        <Input id={elementId} placeholder={placeholder} required={required} />
+        {mask != null ? (
+          <InputMask
+            mask={mask}
+            replacement={
+              isMaskNumber ? { [String(replacement)]: /\d/ } : replacement
+            }
+            component={Input}
+            placeholder={placeholder}
+            required={required}
+            value={maskValue?.value}
+            onMask={(event) => setMaskValue(event.detail)}
+            showMask={isShowMask}
+          />
+        ) : (
+          <Input id={elementId} placeholder={placeholder} required={required} />
+        )}
       </div>
     )
   }

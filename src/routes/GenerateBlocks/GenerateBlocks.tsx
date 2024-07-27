@@ -12,6 +12,7 @@ import { Tag } from 'emblor'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 type FormBlockType = 'input' | 'textarea' | 'select' | 'checkbox' | 'radio'
 
@@ -21,6 +22,11 @@ const GenerateBlocks = () => {
   const [options, setOptions] = useState<Tag[]>([])
   const [label, setLabel] = useState<string>('')
   const [placeholder, setPlaceholder] = useState<string>('')
+  const [isInputMask, setIsInputMask] = useState<boolean>(false)
+  const [mask, setMask] = useState<string>()
+  const [replacement, setReplacement] = useState<string>()
+  const [isMaskNumber, setIsMaskNumber] = useState<boolean>(false)
+  const [isShowMask, setIsShowMask] = useState<boolean>(false)
 
   return (
     <div className="flex flex-col gap-4">
@@ -57,6 +63,59 @@ const GenerateBlocks = () => {
           onChange={(e) => setPlaceholder(e.target.value)}
         />
       </div>
+      {type === 'input' && (
+        <>
+          <div className="flex items-center space-x-2">
+            <Label htmlFor="is-input-mask">Should input have a mask?</Label>
+            <Switch
+              id="is-input-mask"
+              checked={isInputMask}
+              onCheckedChange={() => setIsInputMask((prev) => !prev)}
+            />
+          </div>
+          {isInputMask && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Input Mask</CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-col gap-4">
+                <div className="grid w-full max-w-sm items-center gap-1.5">
+                  <Label htmlFor="input-mask">Input Mask</Label>
+                  <Input
+                    id="input-mask"
+                    placeholder="Add an input mask"
+                    onChange={(e) => setMask(e.target.value)}
+                  />
+                </div>
+                <div className="grid w-full max-w-sm items-center gap-1.5">
+                  <Label htmlFor="replacement">Replacement</Label>
+                  <Input
+                    id="replacement"
+                    placeholder="Add a replacement"
+                    onChange={(e) => setReplacement(e.target.value)}
+                  />
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Label htmlFor="is-mask-number">Is the mask a number?</Label>
+                  <Switch
+                    id="is-mask-number"
+                    checked={isMaskNumber}
+                    onCheckedChange={() => setIsMaskNumber((prev) => !prev)}
+                  />
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Label htmlFor="is-show-mask">Show the mask?</Label>
+                  <Switch
+                    id="is-show-mask"
+                    checked={isShowMask}
+                    onCheckedChange={() => setIsShowMask((prev) => !prev)}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </>
+      )}
       <div className="flex items-center space-x-2">
         <Label htmlFor="required">Is the element required?</Label>
         <Switch
@@ -65,9 +124,6 @@ const GenerateBlocks = () => {
           onCheckedChange={() => setIsRequired((prev) => !prev)}
         />
       </div>
-      {/*
-      TODO: add a way to define an input mask for input
-      */}
       <h2>Preview</h2>
       {type && (
         <FormBlockComponent
@@ -76,6 +132,10 @@ const GenerateBlocks = () => {
           options={options}
           label={label}
           placeholder={placeholder}
+          mask={isInputMask ? mask : undefined}
+          replacement={replacement}
+          isMaskNumber={isMaskNumber}
+          isShowMask={isShowMask}
         />
       )}
     </div>
