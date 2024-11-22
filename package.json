@@ -13,8 +13,7 @@
     "@blocknote/core": "^0.14.5",
     "@blocknote/mantine": "^0.14.6",
     "@blocknote/react": "^0.14.6",
-    "@modular-forms/react": "^0.10.1",
-    "@preact/signals-react": "^2.2.0",
+    "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-checkbox": "^1.1.1",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-radio-group": "^1.2.0",
@@ -27,15 +26,17 @@
     "clsx": "^2.1.1",
     "dexie": "^4.0.8",
     "dexie-react-hooks": "^1.1.7",
-    "emblor": "^1.4.1",
+    "emblor": "^1.4.6",
     "lucide-react": "^0.411.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-error-boundary": "^4.1.2",
+    "react-hook-form": "^7.53.2",
     "react-router": "^6.25.1",
     "react-router-dom": "^6.25.1",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
-    "valibot": "1.0.0-beta.3"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^20.14.11",
@@ -51,6 +52,6 @@
     "postcss": "^8.4.39",
     "tailwindcss": "^3.4.4",
     "typescript": "^5.2.2",
-    "vite": "^5.3.1"
+    "vite": "^5.4.11"
   }
 }
