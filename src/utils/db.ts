@@ -1,7 +1,6 @@
-import { FormBlockType } from '@/routes/GenerateBlocks/GenerateBlocks'
+import { TFormBlock } from '@/routes/Blocks/components/GenerateBlocks/GenerateBlocks'
 import { PartialBlock } from '@blocknote/core'
 import Dexie, { type EntityTable } from 'dexie'
-import { Tag } from 'emblor'
 
 interface IDocument {
   id: number
@@ -10,23 +9,13 @@ interface IDocument {
   content: PartialBlock[] | undefined
 }
 
-interface ICustomBlock {
+type TExtendedFormBlock = TFormBlock & {
   id: number
-  label: string
-  type: FormBlockType
-  isRequired: boolean
-  options: Tag[]
-  placeholder: string
-  isInputMask: boolean
-  mask: string
-  replacement: string
-  isMaskNumber: boolean
-  isShowMask: boolean
 }
 
 const db = new Dexie('DocumentDatabase') as Dexie & {
   document: EntityTable<IDocument, 'id'>
-  customBlock: EntityTable<ICustomBlock, 'id'>
+  customBlock: EntityTable<TExtendedFormBlock, 'id'>
 }
 
 // Schema declaration:

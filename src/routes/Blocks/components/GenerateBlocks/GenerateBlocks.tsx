@@ -16,6 +16,8 @@ import { useForm, Controller, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Tag } from 'emblor'
 import { Button } from '@/components/ui/button'
+import { useLoaderData, useParams } from 'react-router'
+import { db } from '@/utils/db'
 
 const FormBlockType = [
   'input',
@@ -73,9 +75,12 @@ const BlockSchema = z
     }
   })
 
-type TFormBlock = z.infer<typeof BlockSchema>
+export type TFormBlock = z.infer<typeof BlockSchema>
 
 const GenerateBlocks = () => {
+  const initialBlockData = useLoaderData() as TFormBlock | null
+  const { blockId } = useParams()
+
   const {
     handleSubmit,
     control,
@@ -85,16 +90,16 @@ const GenerateBlocks = () => {
   } = useForm<TFormBlock>({
     resolver: zodResolver(BlockSchema),
     defaultValues: {
-      type: 'input',
-      isRequired: false,
-      options: [],
-      label: '',
-      placeholder: '',
-      isInputMask: false,
-      mask: '',
-      replacement: '',
-      isMaskNumber: false,
-      isShowMask: false,
+      type: initialBlockData ? initialBlockData.type : 'input',
+      isRequired: initialBlockData ? initialBlockData.isRequired : false,
+      options: initialBlockData ? initialBlockData.options : [],
+      label: initialBlockData ? initialBlockData.label : '',
+      placeholder: initialBlockData ? initialBlockData.placeholder : '',
+      isInputMask: initialBlockData ? initialBlockData.isInputMask : false,
+      mask: initialBlockData ? initialBlockData.mask : '',
+      replacement: initialBlockData ? initialBlockData.replacement : '',
+      isMaskNumber: initialBlockData ? initialBlockData.isMaskNumber : false,
+      isShowMask: initialBlockData ? initialBlockData.isShowMask : false,
     },
   })
 
@@ -112,7 +117,7 @@ const GenerateBlocks = () => {
   console.log(errors)
 
   const handleClickSaveBlock: SubmitHandler<TFormBlock> = (data) => {
-    console.log({ data })
+    db.customBlock.update(Number(blockId), data)
   }
 
   const width = 'w-[180px]'

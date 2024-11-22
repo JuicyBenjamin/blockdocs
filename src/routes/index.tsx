@@ -4,7 +4,8 @@ import Home from './Home'
 import Documents from './Documents/Documents'
 import Document from './Documents/components/Document'
 import { db } from '@/utils/db'
-import GenerateBlocks from './GenerateBlocks'
+import GenerateBlocks from './Blocks/components/GenerateBlocks'
+import Blocks from './Blocks'
 
 const IndexRoutes = () => {
   const router = createBrowserRouter([
@@ -40,7 +41,23 @@ const IndexRoutes = () => {
         },
         {
           path: 'blocks',
-          element: <GenerateBlocks />,
+          children: [
+            {
+              index: true,
+              element: <Blocks />,
+            },
+            {
+              path: ':blockId',
+              loader: async ({ params }) => {
+                const block = await db.customBlock.get(Number(params.blockId))
+                if (block == null) {
+                  return null
+                }
+                return block
+              },
+              element: <GenerateBlocks />,
+            },
+          ],
         },
       ],
     },
