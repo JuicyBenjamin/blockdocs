@@ -101,9 +101,9 @@ const FormBlockComponent: FC<FormBlockComponentProps> = ({
     return (
       <div className="grid w-full gap-1.5">
         <Label htmlFor={elementId}>{label}</Label>
-        <div id={elementId}>
+        <div id={elementId} className="grid gap-2">
           {options?.map((option) => (
-            <div className="flex items-center space-x-2">
+            <div key={option.id} className="flex items-center space-x-2">
               <Checkbox id={option.id} />
               <Label htmlFor={option.id}>{option.text}</Label>
             </div>
@@ -118,7 +118,7 @@ const FormBlockComponent: FC<FormBlockComponentProps> = ({
         <Label htmlFor={elementId}>{label}</Label>
         <RadioGroup id={elementId}>
           {options?.map((option) => (
-            <div className="flex items-center space-x-2">
+            <div key={option.id} className="flex items-center space-x-2">
               <RadioGroupItem id={option.id} value={option.id} />
               <Label htmlFor={option.id}>{option.text}</Label>
             </div>

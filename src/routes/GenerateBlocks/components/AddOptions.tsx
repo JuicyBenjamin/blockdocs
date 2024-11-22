@@ -8,7 +8,7 @@ interface AddOptionsProps {
   onValueChange: Dispatch<React.SetStateAction<Tag[]>>
 }
 
-const AddOptions: FC<AddOptionsProps> = ({ options, onValueChange }) => {
+const AddOptions: FC<AddOptionsProps> = ({ options = [], onValueChange }) => {
   const [activeTagIndex, setActiveTagIndex] = useState<number | null>(null)
 
   return (
