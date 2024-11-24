@@ -1,13 +1,10 @@
-import '@blocknote/core/fonts/inter.css'
-
-import { BlockNoteView } from '@blocknote/mantine'
-import '@blocknote/mantine/style.css'
 import { db, IDocument } from '@/utils/db'
 import { Link, useLoaderData } from 'react-router-dom'
-import { useCreateBlockNote } from '@blocknote/react'
 import { useEffect, useRef, useState } from 'react'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
+import BlockNote from '@/lib/BlockNote'
+import { BlockNoteEditor } from '@blocknote/core'
 
 const Document = () => {
   const initialContentData = useLoaderData() as IDocument | null
@@ -15,10 +12,6 @@ const Document = () => {
     initialContentData?.description ?? '',
   )
   const titleRef = useRef<HTMLSpanElement>(null)
-
-  const editor = useCreateBlockNote({
-    initialContent: initialContentData?.content,
-  })
 
   useEffect(() => {
     titleRef.current!.innerText = initialContentData?.title ?? ''
@@ -28,7 +21,7 @@ const Document = () => {
     return <div>Document not found</div>
   }
 
-  const addContent = async () => {
+  const addContent = async (editor: BlockNoteEditor) => {
     const currentContent = editor.document
 
     await db.document.update(initialContentData.id, { content: currentContent })
@@ -76,7 +69,10 @@ const Document = () => {
           value={description}
         />
       </div>
-      <BlockNoteView editor={editor} onChange={addContent} />
+      <BlockNote
+        onChange={addContent}
+        initialContent={initialContentData?.content}
+      />
     </div>
   )
 }
