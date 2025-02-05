@@ -1,12 +1,12 @@
+import { blockEditorSchema } from '@/lib/BlockNote'
 import { TFormBlock } from '@/routes/Blocks/components/GenerateBlocks/GenerateBlocks'
-import { PartialBlock } from '@blocknote/core'
 import Dexie, { type EntityTable } from 'dexie'
 
 interface IDocument {
   id: number
   title: string
   description: string
-  content: PartialBlock[] | undefined
+  content: blockEditorSchema['document']
 }
 
 type TExtendedFormBlock = TFormBlock & {

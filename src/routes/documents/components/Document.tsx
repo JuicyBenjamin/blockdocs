@@ -3,8 +3,7 @@ import { Link, useLoaderData } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
-import BlockNote from '@/lib/BlockNote'
-import { BlockNoteEditor } from '@blocknote/core'
+import BlockNote, { blockEditorSchema } from '@/lib/BlockNote'
 
 const Document = () => {
   const initialContentData = useLoaderData() as IDocument | null
@@ -21,7 +20,7 @@ const Document = () => {
     return <div>Document not found</div>
   }
 
-  const addContent = async (editor: BlockNoteEditor) => {
+  const addContent = async (editor: blockEditorSchema) => {
     const currentContent = editor.document
 
     await db.document.update(initialContentData.id, { content: currentContent })
