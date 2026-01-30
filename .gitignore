@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Turborepo
+.turbo/
+
+# Build outputs
+dist/
+build/
+.next/
+.output/
+.vinxi/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# Testing
+coverage/
