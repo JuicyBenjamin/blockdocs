@@ -1,5 +1,6 @@
 import { createReactInlineContentSpec } from "@blocknote/react";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
+import { createPortal } from "react-dom";
 
 /**
  * Field types that can be generated from a variable
@@ -34,10 +35,12 @@ function VariableConfig({
   props,
   onUpdate,
   onClose,
+  position,
 }: {
   props: VariableProps;
   onUpdate: (updates: Partial<VariableProps>) => void;
   onClose: () => void;
+  position: { top: number; left: number };
 }) {
   const options: VariableOption[] = props.options ? JSON.parse(props.options) : [];
   const needsOptions = props.fieldType === "select" || props.fieldType === "radio";
@@ -64,16 +67,18 @@ function VariableConfig({
   return (
     <div
       style={{
-        position: "absolute",
-        top: "100%",
-        left: 0,
-        zIndex: 1000,
+        position: "fixed",
+        top: position.top,
+        left: position.left,
+        zIndex: 10000,
         background: "white",
         border: "1px solid #e2e8f0",
         borderRadius: "8px",
-        boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+        boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
         padding: "12px",
         minWidth: "280px",
+        maxHeight: "80vh",
+        overflowY: "auto",
         display: "flex",
         flexDirection: "column",
         gap: "10px",
@@ -202,6 +207,8 @@ export const Variable = createReactInlineContentSpec(
   {
     render: ({ inlineContent, updateInlineContent }) => {
       const [isConfigOpen, setIsConfigOpen] = useState(false);
+      const [position, setPosition] = useState({ top: 0, left: 0 });
+      const spanRef = useRef<HTMLSpanElement>(null);
       const props = inlineContent.props as unknown as VariableProps;
 
       const displayText = props.label || props.name || "click to configure";
@@ -216,10 +223,22 @@ export const Variable = createReactInlineContentSpec(
         [updateInlineContent, props]
       );
 
+      const handleClick = () => {
+        if (!isConfigOpen && spanRef.current) {
+          const rect = spanRef.current.getBoundingClientRect();
+          setPosition({
+            top: rect.bottom + 4,
+            left: rect.left,
+          });
+        }
+        setIsConfigOpen(!isConfigOpen);
+      };
+
       return (
         <span style={{ position: "relative", display: "inline" }}>
           <span
-            onClick={() => setIsConfigOpen(!isConfigOpen)}
+            ref={spanRef}
+            onClick={handleClick}
             style={{
               backgroundColor: isConfigOpen ? "#bae6fd" : "#e0f2fe",
               border: `1px solid ${isConfigOpen ? "#38bdf8" : "#7dd3fc"}`,
@@ -235,13 +254,27 @@ export const Variable = createReactInlineContentSpec(
             {`{{${displayText}}}`}
           </span>
 
-          {isConfigOpen && (
-            <VariableConfig
-              props={props}
-              onUpdate={handleUpdate}
-              onClose={() => setIsConfigOpen(false)}
-            />
-          )}
+          {isConfigOpen && typeof document !== "undefined" &&
+            createPortal(
+              <>
+                {/* Backdrop to catch clicks outside */}
+                <div
+                  style={{
+                    position: "fixed",
+                    inset: 0,
+                    zIndex: 9999,
+                  }}
+                  onClick={() => setIsConfigOpen(false)}
+                />
+                <VariableConfig
+                  props={props}
+                  onUpdate={handleUpdate}
+                  onClose={() => setIsConfigOpen(false)}
+                  position={position}
+                />
+              </>,
+              document.body
+            )}
         </span>
       );
     },

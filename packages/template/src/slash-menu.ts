@@ -22,7 +22,7 @@ export function getVariableSlashMenuItem(editor: BlockNoteEditor<any, any, any>)
         " ", // Add space after so cursor isn't stuck
       ]);
     },
-    aliases: ["var", "field", "input", "placeholder"],
+    aliases: ["variable", "var", "field", "input", "placeholder", "form"],
     group: "Template",
     subtext: "Insert a form field variable",
   };
