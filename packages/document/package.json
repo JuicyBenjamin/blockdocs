@@ -1,0 +1,22 @@
+{
+  "name": "@blockdocs/document",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "docx": "^9.1.0",
+    "pdfmake": "^0.2.10"
+  },
+  "devDependencies": {
+    "@types/pdfmake": "^0.2.9",
+    "typescript": "^5.7.2"
+  }
+}
